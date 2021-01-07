@@ -16,7 +16,7 @@ import java.util.Scanner;
 
 public class FileIO {
     public String timeReturner(){
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyy HH:mm:ss");
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyy HH:mm:ss ");
         LocalDateTime now = LocalDateTime.now();
         return dtf.format(now);
     }
@@ -27,6 +27,18 @@ public class FileIO {
             // Open given file in append mode.
             BufferedWriter out = new BufferedWriter(
                     new FileWriter(file, true));
+            out.write(str+((newLine==1)?"\n":""));
+            out.close();
+        }
+        catch (IOException e) {
+            System.out.println("exception occoured" + e);
+        }
+    }
+    public void writeFile(File file,String str,int newLine){
+        try {
+            // Open given file in append mode.
+            BufferedWriter out = new BufferedWriter(
+                    new FileWriter(file, false));
             out.write(str+((newLine==1)?"\n":""));
             out.close();
         }
