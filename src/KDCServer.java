@@ -25,6 +25,7 @@ public class KDCServer {
         kdcServer.fileIO.appendStrToFile(new File("KDC_Log.txt"),kdcServer.fileIO.timeReturner()+kdcServer.password,1);
         kdcServer.fileIO.writeFile(new File("passwd"),new String(Base64.getEncoder().encode(hashOperations.SHA1(kdcServer.password))),1);
         try {
+
             ServerSocket serverSocket=new ServerSocket(3000);
             Socket socket=serverSocket.accept();
             DataInputStream din=new DataInputStream(socket.getInputStream());
