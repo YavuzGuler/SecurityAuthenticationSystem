@@ -10,7 +10,6 @@ public class WebServer {
         fileIO=new FileIO();
     }
     public static void main(String[] args) {
-        System.out.println("sa");
         WebServer webServer=new WebServer();
         webServer.rsaKeyPair.setPublicKey(webServer.fileIO.readCertificate("cert/WEBServer.cer"));
         webServer.rsaKeyPair.setPrivateKey(webServer.fileIO.readPrivateKey("keys/WEBServer.txt"));

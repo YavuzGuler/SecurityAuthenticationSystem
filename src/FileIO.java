@@ -1,8 +1,5 @@
-import javax.xml.bind.DatatypeConverter;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.security.KeyFactory;
 import java.security.PrivateKey;
 import java.security.PublicKey;
@@ -94,7 +91,9 @@ public class FileIO {
         StringWriter stringWriter= new StringWriter();
         try {
             stringWriter.write("-----BEGIN CERTIFICATE-----\n");
-            stringWriter.write(DatatypeConverter.printBase64Binary(certificate.getEncoded()).replaceAll("(.{64})", "$1\n"));
+            //stringWriter.write(DatatypeConverter.printBase64Binary(certificate.getEncoded()).replaceAll("(.{64})", "$1\n"));
+            Base64.Encoder encoder=Base64.getMimeEncoder(64, System.getProperty("line.separator").getBytes());
+            stringWriter.write(new String(encoder.encode(certificate.getEncoded())));
             stringWriter.write("\n-----END CERTIFICATE-----\n");
         }catch (Exception e){
             e.printStackTrace();

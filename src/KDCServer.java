@@ -30,7 +30,6 @@ public class KDCServer {
     }
 
     public static void main(String[] args) {
-        System.out.println("sa");
         HashOperations hashOperations = new HashOperations();
         KDCServer kdcServer = new KDCServer();
         kdcServer.checkCertsAndKeys();
@@ -133,7 +132,6 @@ public class KDCServer {
     }
 
     public void createRSA() {
-        System.out.println("sxa");
         try {
             GenerateRSAKeyPair generateRSAKeyPair = new GenerateRSAKeyPair();
 
