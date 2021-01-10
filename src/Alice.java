@@ -1,3 +1,4 @@
+
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.File;
@@ -33,14 +34,6 @@ public class Alice {
         Scanner scanner=new Scanner(System.in);
         String IP="localhost";
         int port=3000;
-        try {
-            alice.socket=new Socket(IP,port);
-             alice.dout= new DataOutputStream(alice.socket.getOutputStream());
-             alice.din=new DataInputStream(alice.socket.getInputStream());
-
-        }catch (Exception e){
-            e.printStackTrace();
-        }
 
 
         String password;
@@ -54,6 +47,10 @@ public class Alice {
                            "To Connect Database Server press 3:"
                    );
            try {
+               port=3000;
+               alice.socket=new Socket(IP,port);
+               alice.din=new DataInputStream(alice.socket.getInputStream());
+               alice.dout=new DataOutputStream(alice.socket.getOutputStream());
                choice=Integer.parseInt(scanner.nextLine());
                if(choice<=0||choice>=4){
                    System.out.println("wrong choice try again.".toUpperCase());
@@ -85,12 +82,9 @@ public class Alice {
                     alice.socket=new Socket(IP,port);
                     alice.din=new DataInputStream(alice.socket.getInputStream());
                     alice.dout=new DataOutputStream(alice.socket.getOutputStream());
-                    alice.connectServers(ticket,new String(Base64.getDecoder().decode(packet.split(", ")[0])),choice);
+                    alice.connectServers(ticket,Base64.getDecoder().decode(packet.split(", ")[0]),choice);
                    alice.socket.close();
-                   port=3000;
-                   alice.socket=new Socket(IP,port);
-                   alice.din=new DataInputStream(alice.socket.getInputStream());
-                   alice.dout=new DataOutputStream(alice.socket.getOutputStream());
+
                }
            }catch (Exception e){
                System.out.println("wrong choice try again.\n".toUpperCase());
@@ -98,14 +92,41 @@ public class Alice {
            }
        }
     }
-    private void connectServers(String ticket, String sessionKey,int choice){
-        Random random=new Random();
-        int n=random.nextInt();
-        this.fileIO.appendStrToFile(new File("Alice_Log.txt"),this.fileIO.timeReturner()+"Alice->"+this.serverList[choice-1]+" : \"Alice\", "+Integer.toString(n),1);
-        String N=new String(Base64.getEncoder().encode(rsaOperations.aesencryption(sessionKey.getBytes(StandardCharsets.UTF_8),Integer.toString(n).getBytes(StandardCharsets.UTF_8))));
-        String packet=String.format("\"Alice\", %s, %s",ticket,N);
-        this.fileIO.appendStrToFile(new File("Alice_Log.txt"),packet,1);
+    private void connectServers(String ticket, byte[] sessionKey,int choice){
+        try {
+            Random random=new Random();
+            int n=random.nextInt();
+            this.fileIO.appendStrToFile(new File("Alice_Log.txt"),this.fileIO.timeReturner()+"Alice->"+this.serverList[choice-1]+" : \"Alice\", "+Integer.toString(n),1);
+            String N=new String(Base64.getEncoder().encode(rsaOperations.aesencryption(sessionKey,Integer.toString(n).getBytes(StandardCharsets.UTF_8))));
+            String packet=String.format("\"Alice\", %s, %s",ticket,N);
+            this.fileIO.appendStrToFile(new File("Alice_Log.txt"),fileIO.timeReturner()+"Alice->"+this.serverList[choice-1]+packet,1);
+            this.dout.writeUTF(packet);
+            packet=this.din.readUTF();
+            this.fileIO.appendStrToFile(new File("Alice_Log.txt"),this.fileIO.timeReturner()+this.serverList[choice-1]+"->Alice : "+packet,1);
+            packet=new String(rsaOperations.aesdecryption(sessionKey,Base64.getDecoder().decode(packet)));
+            if(Integer.parseInt(packet.split(", ")[0])==n+1){
+                this.fileIO.appendStrToFile(new File("Alice_Log.txt"),this.fileIO.timeReturner()+"Message Decrpyted : N1 is OK, N2="+packet.split(", ")[1],1);
+                packet=Integer.toString(Integer.parseInt(packet.split(", ")[1])+1);
+                this.fileIO.appendStrToFile(new File("Alice_Log.txt"),this.fileIO.timeReturner()+"Alice->"+this.serverList[choice-1]+" : "+packet,1);
+                packet=new String(Base64.getEncoder().encode(this.rsaOperations.aesencryption(sessionKey,packet.getBytes(StandardCharsets.UTF_8))));
+                this.fileIO.appendStrToFile(new File("Alice_Log.txt"),this.fileIO.timeReturner()+"Alice->"+this.serverList[choice-1]+" : "+packet,1);
+                dout.writeUTF(packet);
+                packet=din.readUTF();
+                this.fileIO.appendStrToFile(new File("Alice_Log.txt"),this.fileIO.timeReturner()+this.serverList[choice-1]+"->Alice"+" : "+new String(rsaOperations.aesdecryption(sessionKey,Base64.getDecoder().decode(packet.getBytes(StandardCharsets.UTF_8)))),1);
 
+            }
+            else{
 
+                this.fileIO.appendStrToFile(new File("Alice_Log.txt"),this.fileIO.timeReturner()+"Alice->"+this.serverList[choice-1]+"Message Decrpyted : N1 isn't OK, N2="+packet.split(", ")[1],1);
+                packet=Integer.toString(Integer.parseInt(packet.split(", ")[1])+2);
+                packet=new String(Base64.getEncoder().encode(this.rsaOperations.aesencryption(sessionKey,packet.getBytes(StandardCharsets.UTF_8))));
+                this.fileIO.appendStrToFile(new File("Alice_Log.txt"),this.fileIO.timeReturner()+"Alice->"+this.serverList[choice-1]+" : "+"\"Authentication isn't completed!\"",1);
+                this.dout.writeUTF(packet);
+            }
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        
     }
 }

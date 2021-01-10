@@ -14,15 +14,9 @@ public class WebServer {
         WebServer webServer=new WebServer();
         webServer.rsaKeyPair.setPublicKey(webServer.fileIO.readCertificate("cert/WEBServer.cer"));
         webServer.rsaKeyPair.setPrivateKey(webServer.fileIO.readPrivateKey("keys/WEBServer.txt"));
-        try {
-            ServerSocket serverSocket=new ServerSocket(3002);
-            Socket socket=serverSocket.accept();
-            DataInputStream din=new DataInputStream(socket.getInputStream());
+        ServerConnections serverConnections =new ServerConnections();
+        serverConnections.connection(webServer.rsaKeyPair.getPrivateKey(),3002,"Web_Log.txt");
 
-
-        }catch (Exception e){
-            e.printStackTrace();
-        }
 
     }
 }

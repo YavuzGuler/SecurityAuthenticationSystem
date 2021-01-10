@@ -19,7 +19,7 @@ public class MailServer {
         mailServer.rsaKeyPair.setPrivateKey(mailServer.fileIO.readPrivateKey("keys/MailServer.txt"));
         mailServer.rsaKeyPair.setPublicKey(mailServer.fileIO.readCertificate("cert/MailServer.cer"));
         ServerConnections serverConnections =new ServerConnections();
-        serverConnections.connection(mailServer.rsaKeyPair.getPrivateKey(),3001,"\"Mail\"","Mail_Log.txt");
+        serverConnections.connection(mailServer.rsaKeyPair.getPrivateKey(),3001,"Mail_Log.txt");
 
 
 

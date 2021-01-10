@@ -53,6 +53,7 @@ public class KDCServer {
                     if (!message.split(", ")[1].equals(kdcServer.password)) {
                         kdcServer.dout.writeUTF("\"Password Denied\"");
                         kdcServer.fileIO.appendStrToFile(new File("KDC_Log.txt"), kdcServer.fileIO.timeReturner() + "KDC->Alice : \"Password Denied\"", 1);
+                        break;
                     } else {
                         kdcServer.dout.writeUTF("\"Password Verified\"");
                         kdcServer.fileIO.appendStrToFile(new File("KDC_Log.txt"), kdcServer.fileIO.timeReturner() + "KDC->Alice : \"Password Verified\"", 1);

@@ -13,16 +13,8 @@ public class DatabaseServer {
         DatabaseServer databaseServer=new DatabaseServer();
         databaseServer.rsaKeyPair.setPublicKey(databaseServer.fileIO.readCertificate("cert/DatabaseServer.cer"));
         databaseServer.rsaKeyPair.setPrivateKey(databaseServer.fileIO.readPrivateKey("keys/DatabaseServer.txt"));
-        System.out.println("sa");
-        try {
-            ServerSocket serverSocket=new ServerSocket(3003);
-            Socket socket=serverSocket.accept();
-            DataInputStream din=new DataInputStream(socket.getInputStream());
-
-
-        }catch (Exception e){
-            e.printStackTrace();
-        }
+        ServerConnections serverConnections =new ServerConnections();
+        serverConnections.connection(databaseServer.rsaKeyPair.getPrivateKey(),3003,"Database_Log.txt");
 
     }
 }
