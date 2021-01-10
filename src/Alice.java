@@ -26,15 +26,10 @@ public class Alice {
     }
     public static void main(String[] args) {
         Alice alice=new Alice();
-        alice.rsaKeyPair.setPrivateKey(alice.fileIO.readPrivateKey("keys/Alice.txt"));
-        alice.rsaKeyPair.setPublicKey(alice.fileIO.readCertificate("cert/Alice.cer"));
-        alice.kdcPublicKey=alice.fileIO.readCertificate("cert/KDCServer.cer");
-
-
         Scanner scanner=new Scanner(System.in);
         String IP="localhost";
         int port=3000;
-
+        boolean firstTime=true;
 
         String password;
 
@@ -51,12 +46,18 @@ public class Alice {
                alice.socket=new Socket(IP,port);
                alice.din=new DataInputStream(alice.socket.getInputStream());
                alice.dout=new DataOutputStream(alice.socket.getOutputStream());
+               if(firstTime){
+                   alice.rsaKeyPair.setPrivateKey(alice.fileIO.readPrivateKey("keys/Alice.txt"));
+                   alice.rsaKeyPair.setPublicKey(alice.fileIO.readCertificate("cert/Alice.cer"));
+                   alice.kdcPublicKey=alice.fileIO.readCertificate("cert/KDCServer.cer");
+                   firstTime=false;
+               }
                choice=Integer.parseInt(scanner.nextLine());
                if(choice<=0||choice>=4){
                    System.out.println("wrong choice try again.".toUpperCase());
                    continue;
                }
-               String timeStamp=alice.fileIO.timeReturner();;
+               String timeStamp=alice.fileIO.timeReturner();
                String packet=String.format("\"Alice\", %s, \"%s\", %s",password,alice.serverList[choice-1],timeStamp);
 
                alice.fileIO.appendStrToFile(new File("Alice_Log.txt"), timeStamp+"Alice->KDC : "+
@@ -85,6 +86,9 @@ public class Alice {
                     alice.connectServers(ticket,Base64.getDecoder().decode(packet.split(", ")[0]),choice);
                    alice.socket.close();
 
+               }
+               else{
+                   alice.socket.close();
                }
            }catch (Exception e){
                System.out.println("wrong choice try again.\n".toUpperCase());
@@ -127,6 +131,6 @@ public class Alice {
         }catch (Exception e){
             e.printStackTrace();
         }
-        
+
     }
 }

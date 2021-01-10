@@ -1,8 +1,0 @@
-10/01/2021 13:43:12 Alice->Web : "Alice", fuLqTxvRGg2eIA/YU2BQZ4ERL9JGYQDJ6tnFiN/WuavoAMpPac2LZHB/xEtBZj7NpEiQpUnJe4JE3KcxG4beug5Kvl88jcz0BKy0dtumLamKHUDSQatOWWmGc++OAi6KqvTSDyZGW40wLyFhyQYDOmcEAIxPOz7K88iKZUuf2jyIq+vXvEJLNNA3WVZFv3khRg7AobaBsAgEUsRBHN+Q/ZgE6fGUKFlqXJ3p7Tg5Gs3xUvpyKmRrJJY1cejx7RPTp/C7+wZP/jeeU19o3Qo3ecQJ4VePJczrjqgVRqyVVVNpdwXUHeLZDFo8Bb9EZv142p+sGiq/p/wdw3wCXUV2FA==, IhBbMmXmC70c9Ng+8NUpkg==
-10/01/2021 13:43:12 "Ticket Decrpyted" : "Alice", "Web", 10/01/2021 13:43:11 , XkbqOlm21DiRd6/CUx9oXQ==
-10/01/2021 13:43:12 "Message Decrpyted" : N1=1222140414
-10/01/2021 13:43:12 Web->Alice : 1222140415, 2060731733
-10/01/2021 13:43:12 Web->Alice : /MeyZJHjDOdyqQkluqh8jynL5tPyXw5VoFjsRaWUPBo=
-10/01/2021 13:43:12 Alice->Web : N9k+AP7BB8PrbS0tenSkTg==
-10/01/2021 13:43:12 "Message Decrpyted" : 2060731734
-10/01/2021 13:43:12 Alice->Web : "Authentication is completed!"

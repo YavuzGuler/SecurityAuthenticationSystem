@@ -1,0 +1,8 @@
+10/01/2021 15:24:45 Alice->Mail : "Alice", eVLkOMgg1TlU1INNHGZ3qjbTQazIerUoklWZ5Znrfc+HVAnu3RRiFkVYlu+xgJCfzssV6EcWc5mKOaPZYzE72mwD9Op0cTFGSjIxezkB/7HQu4Bj2EaFeZ5PyKl6OAR0htiSfy78vamPmmVQT5IIpiZVolEoG2NAKPv6bpiu+9b7no94c84uiDyolOKhAiw4EKx7U+NAWIP7bxVAAUaekcGvXpvWhhFRKlZxdkWR95eWiL3DbpBODRlgKWmBBRdbcy49W5Qnu+hI21IbTJncrWZNUQEL8HzEwZMSrtv1TFgQLRvKK5Ymgt23IRtOFmtcwrc1R6M6ReBr7/LKNOhM0w==, 4xjY1QbuBkrIOmMEnEUkKg==
+10/01/2021 15:24:45 "Ticket Decrpyted" : "Alice", "Mail", 10/01/2021 15:24:44 , KeMYckynQXdMDXCqdduSdQ==
+10/01/2021 15:24:45 "Message Decrpyted" : N1=1583227811
+10/01/2021 15:24:45 Mail->Alice : 1583227812, -192463988
+10/01/2021 15:24:45 Mail->Alice : OghKeIsJfdbju1L1qLPF7eKx8nPUCMEpBF1fdcM0vt8=
+10/01/2021 15:24:45 Alice->Mail : OWAZGOWEdBDpJ/uo7/7HUw==
+10/01/2021 15:24:45 "Message Decrpyted" : -192463987
+10/01/2021 15:24:45 Alice->Mail : "Authentication is completed!"

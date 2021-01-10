@@ -52,6 +52,7 @@ public class FileIO {
             CertificateFactory fact = CertificateFactory.getInstance("X.509");
             FileInputStream is = new FileInputStream (certificatePath);
             X509Certificate cer = (X509Certificate) fact.generateCertificate(is);
+            is.close();
             return cer.getPublicKey();
         }catch (Exception e){
             e.printStackTrace();
@@ -62,7 +63,9 @@ public class FileIO {
         try {
             Scanner scanner=new Scanner(new File(privateKeyPath));
             KeyFactory keyFactory=KeyFactory.getInstance("RSA");
-            return keyFactory.generatePrivate(new PKCS8EncodedKeySpec(Base64.getDecoder().decode(scanner.nextLine().getBytes(StandardCharsets.UTF_8))));
+            String privateKey=scanner.nextLine();
+            scanner.close();
+            return keyFactory.generatePrivate(new PKCS8EncodedKeySpec(Base64.getDecoder().decode(privateKey.getBytes(StandardCharsets.UTF_8))));
 
         }catch (Exception e){
             e.printStackTrace();

@@ -53,6 +53,7 @@ public class KDCServer {
                     if (!message.split(", ")[1].equals(kdcServer.password)) {
                         kdcServer.dout.writeUTF("\"Password Denied\"");
                         kdcServer.fileIO.appendStrToFile(new File("KDC_Log.txt"), kdcServer.fileIO.timeReturner() + "KDC->Alice : \"Password Denied\"", 1);
+                        socket.close();
                         break;
                     } else {
                         kdcServer.dout.writeUTF("\"Password Verified\"");
@@ -90,6 +91,16 @@ public class KDCServer {
         File file = new File("cert");
         if (!file.exists() && !file.isDirectory()) {
             file.mkdir();
+        createRSA=true;
+        }
+        file = new File("keys");
+        if (!file.exists() && !file.isDirectory()) {
+            file.mkdir();
+            createRSA();
+            return;
+        }
+        if(createRSA)
+        {
             createRSA();
             return;
         }
@@ -100,12 +111,7 @@ public class KDCServer {
                 return;
             }
         }
-        file = new File("keys");
-        if (!file.exists() && !file.isDirectory()) {
-            file.mkdir();
-            createRSA();
-            return;
-        }
+;
         for (int i = 0; i < this.nameList.length; i++) {
             file = new File("keys/" + this.nameList[i] + ".txt");
             if (!file.exists()) {
@@ -144,6 +150,12 @@ public class KDCServer {
                 fileIO.writeCertificate("cert/" + nameList[i + 1] + ".cer", rsaKeyPairList[i].getCertificate());
                 //  rsaKeyPairList[i].getCertificate().verify(rsaKeyPair.getPublicKey());
             }
+            // rsaKeyPairList = { "WEBServer", "MailServer", "Alice", "DatabaseServer"}
+            this.alicePublicKey =rsaKeyPairList[2].getPublicKey();
+            this.webPublicKey = rsaKeyPairList[0].getPublicKey();
+            this.mailPublicKey =rsaKeyPairList[1].getPublicKey();
+            this.databasePublicKey =rsaKeyPairList[3].getPublicKey();
+
 
         } catch (Exception e) {
             e.printStackTrace();
